@@ -1,11 +1,12 @@
 import streamlit as st
 import pandas as pd
 import datetime
+import io
 
 # Load the Excel data
 def load_data():
     file_path = "C1 Door and Lot Log.xlsx"
-    df = pd.read_excel(file_path, sheet_name="Dock Door Log")
+    df = pd.read_excel(file_path, sheet_name="Dock Door Log", dtype=str)
     df = df.dropna(how="all")  # Drop completely empty rows
     return df
 
@@ -60,4 +61,16 @@ with st.expander("Filter Options"):
 
     st.dataframe(filtered_data)
 
-st.download_button("Download Current View as Excel", data=filtered_data.to_excel(index=False), file_name="Filtered_Shipments.xlsx")
+# Prepare Excel download
+output = io.BytesIO()
+with pd.ExcelWriter(output, engine='openpyxl') as writer:
+    filtered_data.to_excel(writer, index=False)
+    writer.save()
+    excel_data = output.getvalue()
+
+st.download_button(
+    label="Download Current View as Excel",
+    data=excel_data,
+    file_name="Filtered_Shipments.xlsx",
+    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+)
