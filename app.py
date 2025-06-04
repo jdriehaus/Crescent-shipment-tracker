@@ -44,8 +44,7 @@ with st.form("shipment_form"):
         })
         updated_data = pd.concat([data, new_entry], ignore_index=True)
         save_data(updated_data)
-        st.success("Shipment entry added successfully!")
-        st.experimental_rerun()
+        st.success("Shipment entry added successfully! Please refresh the app to see updates.")
 
 st.header("Search Shipments")
 with st.expander("Filter Options"):
