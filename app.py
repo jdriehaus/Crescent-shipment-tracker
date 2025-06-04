@@ -6,9 +6,7 @@ import io
 # Load the Excel data
 def load_data():
     file_path = "C1 Door and Lot Log.xlsx"
-    xls = pd.ExcelFile(file_path)
-    st.write("Available sheet names:", xls.sheet_names)  # Debug line
-    df = xls.parse(xls.sheet_names[0], dtype=str)  # Load first sheet by default
+    df = pd.read_excel(file_path, sheet_name="Dock Door Log", dtype=str)
     df = df.dropna(how="all")  # Drop completely empty rows
     return df
 
