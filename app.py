@@ -29,9 +29,9 @@ with st.form("shipment_form"):
     customer = st.text_input("Customer")
     comments = st.text_input("Comments")
     drop_date = st.date_input("Drop Date", value=datetime.date.today())
-    
+
     submitted = st.form_submit_button("Add Entry")
-    
+
     if submitted:
         new_entry = pd.DataFrame({
             "Door": [door],
@@ -61,16 +61,15 @@ with st.expander("Filter Options"):
 
     st.dataframe(filtered_data)
 
-# Prepare Excel download
+# Prepare Excel download using in-memory buffer
 output = io.BytesIO()
 with pd.ExcelWriter(output, engine='openpyxl') as writer:
     filtered_data.to_excel(writer, index=False)
-    writer.save()
-    excel_data = output.getvalue()
+output.seek(0)
 
 st.download_button(
     label="Download Current View as Excel",
-    data=excel_data,
+    data=output,
     file_name="Filtered_Shipments.xlsx",
     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 )
