@@ -3,15 +3,11 @@ import pandas as pd
 import datetime
 import io
 
-# Load the Excel data safely with fallback
+# Load the Excel data
+
 def load_data():
     file_path = "C1 Door and Lot Log.xlsx"
-    try:
-        df = pd.read_excel(file_path, sheet_name="Dock Door Log", dtype=str)
-    except ValueError:
-        xls = pd.ExcelFile(file_path)
-        st.error("Sheet 'Dock Door Log' not found. Available sheets: {}".format(xls.sheet_names))
-        df = pd.read_excel(xls, sheet_name=xls.sheet_names[0], dtype=str)
+    df = pd.read_excel(file_path, sheet_name="Sheet1", dtype=str)
     df = df.dropna(how="all")  # Drop completely empty rows
     return df
 
