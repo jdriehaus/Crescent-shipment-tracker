@@ -6,7 +6,9 @@ import io
 # Load the Excel data
 def load_data():
     file_path = "C1 Door and Lot Log.xlsx"
-    df = pd.read_excel(file_path, sheet_name="Dock Door Log", dtype=str)
+    xls = pd.ExcelFile(file_path)
+    sheet_name = xls.sheet_names[0]  # Use the first sheet dynamically
+    df = pd.read_excel(xls, sheet_name=sheet_name, dtype=str)
     df = df.dropna(how="all")
     return df
 
