@@ -6,12 +6,7 @@ import io
 # Load the Excel data
 def load_data():
     file_path = "C1 Door and Lot Log.xlsx"
-    try:
-        df = pd.read_excel(file_path, sheet_name="Dock Door Log", dtype=str)
-    except ValueError as e:
-        xls = pd.ExcelFile(file_path)
-        st.error(f"Could not find 'Dock Door Log'. Available sheets: {xls.sheet_names}")
-        df = xls.parse(xls.sheet_names[0], dtype=str)
+    df = pd.read_excel(file_path, sheet_name="Dock Door Log", dtype=str)
     df = df.dropna(how="all")
     return df
 
