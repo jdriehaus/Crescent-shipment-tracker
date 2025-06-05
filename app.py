@@ -58,6 +58,7 @@ with st.expander("Filter Options"):
         filtered_data = filtered_data[filtered_data["Customer"].str.contains(customer_filter, case=False, na=False)]
     if len(date_range) == 2:
         start, end = pd.to_datetime(date_range[0]), pd.to_datetime(date_range[1])
+        filtered_data["Drop Date"] = pd.to_datetime(filtered_data["Drop Date"], errors="coerce")
         filtered_data = filtered_data[(filtered_data["Drop Date"] >= start) & (filtered_data["Drop Date"] <= end)]
 
     st.dataframe(filtered_data)
